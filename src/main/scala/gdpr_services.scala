@@ -95,18 +95,20 @@ object gdpr_services {
 
     */
     import com.github.jurajburian.mailer._
-    val session = (SmtpAddress("smtp.gmail.com", 465) :: SessionFactory()).session(Some("badre.gm@gmail.com"-> "paassd"))
+    println("------------")
+    val session = (SmtpAddress("smtp.gmail.com", 465) :: SessionFactory()).session(Some("badre.test@gmail.com"-> "****"))
 
-
+    println("===========")
     import javax.mail.internet.InternetAddress
     val content = new Content().text("Hello there!")
     val msg = Message(
-      from = new InternetAddress("badre.gm@gmail.com"),
+      from = new InternetAddress("badre.test@gmail.com"),
       subject = "my subject",
       content = content,
-      to = Seq(new InternetAddress("laghmich@gmail.com")))
+      to = Seq(new InternetAddress("test@gmail.com")))
     val mailer = Mailer(session)
     // recomendations: use try
+
     mailer.send(msg)
     mailer.close()
 
