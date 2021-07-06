@@ -19,7 +19,7 @@ object tp01_2 {
     val maybeDataFrame = readData("films01.csv", "CSV")
     val df = maybeDataFrame.right.get
 
-    //2
+    // 2
     val df2 = df.withColumnRenamed("directedBY","acteur_principal")
       .withColumnRenamed("nb_vues","nombre_vues")
       .withColumnRenamed("note","note_film")
@@ -29,10 +29,27 @@ object tp01_2 {
 
     println(df2.show(10))
 
-    // question 1
-    //val dftvshow = df.filter("type == 'TV Show'")
-    //println(dftvshow.show(3))
-    // question 2
+
+
+    // 3
+    val df_Leonardo_Di_Caprio = df2.filter("acteur_principal == 'Leonardo Di Caprio'")
+    println(df_Leonardo_Di_Caprio.show(3))
+    val cnt_ldc  = df_Leonardo_Di_Caprio.count()
+    val cnt_total  = df2.count()
+    println("le nombre de films de Leonardo Di Caprio est :"+cnt_ldc)
+    println("cnt_total:"+cnt_total)
+    println("moy est : >> "+ cnt_ldc.toDouble/cnt_total.toDouble)
+
+
+    df2.groupBy("acteur_principal").avg("note_film").show(10)
+
+    df2.groupBy("acteur_principal").avg("nombre_vues").show(10)
+
+    // 4
+    val total_views = df2.select(col("nombre_vues")).rdd.map(_(0).asInstanceOf[Int]).reduce(_+_)
+    println(total_views)
+    //df.withColumn("perc", ( total_views)).show
+
 
   }
 }
